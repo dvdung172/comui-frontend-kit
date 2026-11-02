@@ -1,0 +1,29 @@
+{
+  "generated_by": "scripts/sync_skills.py",
+  "canonical_workflow": "references/workflow.md",
+  "flow": "build",
+  "stage_ids": [
+    "shared",
+    "baseline",
+    "build.1",
+    "build.2",
+    "build.3",
+    "build.4",
+    "completion"
+  ],
+  "section_sha256": {
+    "Shared execution rules": "8b4a9a9cee1e81659a2b40b5311705d802ab82a581aa30002bd1c5a15a43c389",
+    "Establish the baseline": "5edd2b7a835a4cd14190a70be265d8902569c6b089bd3eb63b6ad271631710b3",
+    "Build": "d653cb0c2728e3c8adaba8cd47b4f08b2579b1ef0318f6c1e2732c2ebcb7c6b1",
+    "Completion and blocked checks": "c03676cc4d1f78fd2366417d58a2d5619db5747a6c253dd9076c3a5f74b37ae9"
+  },
+  "resource_sha256": {
+    "references/core.md": "0badf1ef90ffb940741a62904d7475799d7f9d6e4fdca09b1815aa07320bdf27",
+    "references/repo-profile.md": "446256d89c6debd13abd5a58bb8aa94f028700b9eeddb4a45ad89e9e86f138b7",
+    "references/component-analysis.md": "1e0fcc043088df5d70db2cc2b98d8511b00c1c2de467429cf65936004f6513d8",
+    "references/verification.md": "bd50f070019f84230fd3fa86a93619e9b51c4cbd801625ebc85557985fe70e4b",
+    "templates/repo-profile.md": "6d47b6106b77dd6c268a6373e0aa183366564b2224d6ead8e3e48d6244479afe",
+    "templates/component-contract.md": "a85b6551d73856f08fa8c68eb6d73b48060850d49f7e29e4c10d66c00bbd3850",
+    "templates/audit-and-refactor.md": "39258c939e8c21f68ae5bd6919f48e93ee80260f8b0f9684aa519fad267c20aa"
+  }
+}

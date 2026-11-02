@@ -1,0 +1,1 @@
+Bạn đang chọn `comui-audit`, luồng này chỉ rà soát và đề xuất. Yêu cầu sửa ngay hai product card thuộc luồng Refactor. Bạn muốn giữ Audit để tôi báo cáo phần lặp và kế hoạch xử lý, hay chuyển sang `comui-refactor` để thực hiện sửa?

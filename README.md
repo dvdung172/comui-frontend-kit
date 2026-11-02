@@ -13,7 +13,9 @@ Bộ skill cho AI làm frontend theo chuẩn sẵn có của từng repo, lấy 
 | [`comui-refactor`](skills/comui-refactor/SKILL.md) | Thực hiện thay đổi cấu trúc UI | Mã đã refactor cùng bằng chứng về các hành vi cần giữ |
 | [`comui-frontend-kit`](SKILL.md) | Giữ cách gọi cũ hoặc xử lý công việc kết hợp | Tự chọn luồng phù hợp với yêu cầu; giữ bộ reference chi tiết |
 
-Ba skill mới **độc lập**: có thể cài một hoặc nhiều skill, không cần lệnh cũ hay repo bộ kit ở thời điểm sử dụng. Mỗi thư mục chứa `SKILL.md` và metadata Codex; hướng dẫn cốt lõi nằm ngay trong skill. Lệnh cũ vẫn tự hoạt động, không bắt buộc gọi chuyển tiếp sang skill mới.
+Ba skill mới **độc lập và ánh xạ 1–1 theo luồng** từ lệnh cũ. Mỗi bản có đủ hướng dẫn chung, baseline, toàn bộ các bước của đúng một luồng, tiêu chí hoàn thành và bản sao nguyên vẹn các reference vận hành. Chúng không phải bản tóm tắt. Lệnh cũ chọn luồng từ yêu cầu; từng skill mới cố định một luồng và không tự chạy luồng khác.
+
+Có thể cài một hoặc nhiều skill mà không cần lệnh cũ hoặc repo bộ kit ở thời điểm sử dụng. Giữ nguyên cả thư mục skill, gồm `SKILL.md`, `references/`, `templates/`, `mapping.json` và metadata. Không cần chạy các nhiệm vụ theo một chuỗi bắt buộc.
 
 ## Sử dụng
 
@@ -30,6 +32,8 @@ Trong Codex, thay `/` bằng `$`, chẳng hạn `$comui-audit xem phần giỏ h
 
 Nếu đã xác định phạm vi hoặc hành vi cần giữ, nói ngay trong yêu cầu. Nếu chưa, skill sẽ tìm ngữ cảnh trong workspace và thu hẹp phạm vi khi cần. `comui-refactor` nhận cả yêu cầu trực tiếp lẫn kế hoạch có sẵn; một báo cáo audit trước đó là tùy chọn.
 
+Gọi đúng nhiệm vụ: `comui-audit` chỉ phân tích và đề xuất, `comui-build` chỉ làm luồng xây mới, `comui-refactor` chỉ làm luồng refactor. Khi yêu cầu thuộc luồng khác, skill nêu sự không khớp và hỏi bạn chọn lại; nó không âm thầm chuyển luồng hay gọi skill khác. Việc tìm hiểu source trong build/refactor là một bước của nhiệm vụ đó, không phải chạy thêm luồng audit.
+
 Với AI có quyền đọc file nhưng không hỗ trợ skill, yêu cầu đọc `SKILL.md` của skill tương ứng rồi giao việc bình thường. Nếu chỉ dùng chat, cung cấp hướng dẫn và source liên quan, đồng thời nêu phần repo chưa được cung cấp.
 
 ## Cơ chế hoạt động
@@ -43,14 +47,28 @@ Với AI có quyền đọc file nhưng không hỗ trợ skill, yêu cầu đ�
 5. **Kiểm chứng và phản hồi cụ thể.** Dùng check thực sự tồn tại trong repo; khi có runtime, kiểm tra các trạng thái và tương tác liên quan. Nếu so thiết kế, giữ điều kiện so sánh tương đương. Phản hồi chỉ rõ phần tử/selector, source và kịch bản thay vì yêu cầu chung chung như “làm đẹp hơn”.
 6. **Bàn giao theo quy mô.** Nêu kết quả, bằng chứng, check đã chạy và phần chưa kiểm chứng. Trả lời ngắn hoặc lập tài liệu tùy yêu cầu; không bắt dùng một form cố định.
 
-Agent nạp phần hướng dẫn của skill được chọn. Lệnh cũ đọc thêm reference theo nhu cầu; ba skill mới chứa hướng dẫn riêng và không cần đọc toàn bộ bộ kit. Prompt, hợp đồng component và mẫu báo cáo là tài liệu tham khảo tùy chọn.
+Agent đọc đầy đủ workflow được chọn và các reference vận hành mà workflow yêu cầu. Ba skill mới mang theo cùng nội dung reference, không phụ thuộc file ở ngoài thư mục được cài. Template chỉ giúp trình bày; dùng template hay không vẫn phải thực hiện đầy đủ quy trình.
+
+### Ánh xạ và hoàn thành từng bước
+
+| Skill | Nguồn quy trình ở lệnh cũ | Bản quy trình độc lập | Các giai đoạn phải thực hiện |
+| --- | --- | --- | --- |
+| `comui-audit` | [Audit](references/workflow.md#audit) | [Workflow audit](skills/comui-audit/references/workflow.md) | Hướng dẫn chung → baseline → 5 bước Audit → hoàn thành |
+| `comui-build` | [Build](references/workflow.md#build) | [Workflow build](skills/comui-build/references/workflow.md) | Hướng dẫn chung → baseline → 4 bước Build → hoàn thành |
+| `comui-refactor` | [Refactor](references/workflow.md#refactor) | [Workflow refactor](skills/comui-refactor/references/workflow.md) | Hướng dẫn chung → baseline → 5 bước Refactor → hoàn thành |
+
+Phần workflow tương ứng được chép nguyên văn; phần chung, [core](references/core.md), [repo-profile](references/repo-profile.md), [component-analysis](references/component-analysis.md), [verification](references/verification.md) và các template có cùng nội dung byte với nguồn. `mapping.json` trong từng skill ghi luồng, ID các bước và hash để kiểm tra ánh xạ. Tài liệu nghiên cứu và harness là tài nguyên cấp bộ kit, không phải bước phải chạy trước của một nhiệm vụ.
+
+Khi bàn giao, agent phải ghi nhận `shared`, `baseline`, từng ID bước của luồng đã chọn và `completion`, kèm bằng chứng hoặc lý do cụ thể. Bước làm xong là `done`; nhánh điều kiện không phát sinh phải ghi `not applicable` và lý do; việc bắt buộc chưa làm được là `blocked` cùng điều kiện còn thiếu. Không được bỏ bước rồi tuyên bố hoàn tất. Check vẫn dùng trạng thái passed/failed/not run/unavailable để phân biệt thực thi với kết quả kiểm chứng.
+
+Ví dụ, audit chỉ từ source có thể hoàn thành báo cáo khi đã làm các check sẵn có và nêu rõ chưa kiểm chứng UI. Nếu nhiệm vụ yêu cầu xác nhận render mà không có runtime thì tiêu chí đó vẫn chưa hoàn thành. Thiếu điều kiện không phải lý do tự chạy một luồng khác.
 
 ## Ưu điểm và giới hạn
 
 | Ưu điểm | Giá trị thực tế |
 | --- | --- |
 | Ưu tiên chuẩn repo | Giảm đề xuất đổi framework, cấu trúc hoặc cách đặt tên chỉ theo sở thích của AI |
-| Tách audit, build và refactor | Gọi đúng công việc; nhận xét source không tự trở thành yêu cầu sửa mã |
+| Tách audit, build và refactor theo cùng quy trình gốc | Cố định nhiệm vụ, giữ đủ các bước; nhận xét source không tự trở thành yêu cầu sửa mã |
 | Reuse xét cả hành vi và state | Giúp tránh component tổng quát với nhiều cờ và các lifecycle bị ghép không cần thiết |
 | Chỉ có source vẫn dùng được | Bắt đầu rà soát mà chưa cần môi trường chạy hoặc file thiết kế |
 | Markdown và ba skill tự chứa hướng dẫn | Có thể cài riêng, chuyển công cụ và dùng yêu cầu tự nhiên |
@@ -58,7 +76,7 @@ Agent nạp phần hướng dẫn của skill được chọn. Lệnh cũ đọc
 
 | Nhược điểm / giới hạn | Hệ quả khi dùng |
 | --- | --- |
-| Phụ thuộc năng lực model và công cụ | Cài skill không bảo đảm agent làm đúng mọi hướng dẫn hay phát hiện mọi lỗi |
+| Phụ thuộc năng lực model và công cụ | Ánh xạ nội dung 1–1 không tự bảo đảm agent thực thi đúng mọi bước; vẫn cần đối chiếu bằng chứng và coverage |
 | Chuẩn repo có thể thiếu hoặc xung đột | Agent vẫn cần suy luận, ghi rõ giả định hoặc hỏi lại ở quyết định quan trọng |
 | Source không chứng minh toàn bộ UI | Render, tương tác, responsive, accessibility và hiệu năng cần kiểm tra tương ứng |
 | Thay đổi component dùng chung có phạm vi ảnh hưởng rộng | Cần kiểm tra các consumer/variant liên quan; một build xanh chưa đủ |
@@ -128,7 +146,9 @@ if [ -e "$COMUI_LEGACY_DIR" ] || [ -L "$COMUI_LEGACY_DIR" ]; then
 else
   mkdir -p "$COMUI_LEGACY_DIR"
   cp SKILL.md prompts.md LICENSE "$COMUI_LEGACY_DIR/"
-  cp -R agents references templates examples evaluations scripts "$COMUI_LEGACY_DIR/"
+  cp -R agents references templates examples evaluations "$COMUI_LEGACY_DIR/"
+  mkdir -p "$COMUI_LEGACY_DIR/scripts"
+  cp scripts/trial.py scripts/test_trial.py "$COMUI_LEGACY_DIR/scripts/"
 fi
 ```
 
@@ -136,13 +156,27 @@ Lệnh cũ dùng các reference đi kèm nên phải giữ cả các thư mục 
 
 Mở phiên AI trong project muốn làm việc rồi gọi skill. Nếu danh sách skill chưa cập nhật, kiểm tra vị trí `SKILL.md`, tên skill và mở lại phiên theo cơ chế công cụ. Thấy tên skill trong danh sách xác nhận việc khám phá; chất lượng thực hiện vẫn cần đánh giá riêng.
 
+## Duy trì ánh xạ 1–1
+
+Nguồn chuẩn là `references/core.md`, `references/workflow.md`, ba reference vận hành và các template ở gốc repo. Sửa nguồn này khi đổi quy trình; không sửa trực tiếp các bản sinh trong `skills/`.
+
+Chạy tại **repo nguồn**, không phải thư mục skill đã cài:
+
+```sh
+python3 -B scripts/sync_skills.py --write
+python3 -B scripts/sync_skills.py --check
+python3 -B scripts/test_sync_skills.py
+```
+
+`--write` sinh lại các file được quản lý của ba skill. `--check` chỉ kiểm tra, trả lỗi nếu có file bị thiếu hoặc lệch nội dung; không tự sửa. Bộ test đối chiếu toàn bộ các bước với luồng gốc, kiểm tra reference nguyên vẹn, đường dẫn độc lập và phát hiện sai lệch có chủ ý. Python standard library đủ cho việc đồng bộ; dùng skill đã cài không cần Python.
+
 ## Thử nghiệm, tài liệu và nguồn gốc
 
 [Harness Codex](references/codex.md) là wrapper tùy chọn để chạy audit qua **lệnh cũ**, lưu log, snapshot và rubric đánh giá. Nó có prompt nội bộ cho lượt thử được kiểm soát; người dùng skill tương tác không phải viết theo prompt đó. Harness không tự build/refactor, không tự chấm chất lượng và kế thừa auth/model hiện có của Codex CLI.
 
 - [Workflow chi tiết của lệnh cũ](references/workflow.md), [chuẩn repo](references/repo-profile.md), [phân tích component](references/component-analysis.md), [kiểm chứng](references/verification.md).
 - [Ví dụ yêu cầu tùy chọn](prompts.md), [mẫu audit](templates/audit-and-refactor.md), [mẫu hồ sơ repo](templates/repo-profile.md), [mẫu component contract](templates/component-contract.md).
-- [Ví dụ audit](examples/audit-example.md), [kết quả đánh giá ban đầu](evaluations/validation.md) và [thay đổi tách skill](evaluations/independent-skills.md). Kết quả cũ được ghi cho entrypoint cũ, không tự coi là bằng chứng cho ba skill mới.
+- [Ví dụ audit](examples/audit-example.md), [kết quả đánh giá ban đầu](evaluations/validation.md), [đánh giá bản tách cô đọng trước đây](evaluations/independent-skills.md) và [đánh giá ánh xạ đầy đủ 1–1](evaluations/full-flow-mapping.md). Các kết quả được phân biệt theo phiên bản và loại kiểm tra.
 - [Phân tích ComUICoder](references/comuicoder-analysis.md), [paper](https://arxiv.org/abs/2602.19276) và [repo WebPAI](https://github.com/WebPAI/ComUICoder).
 
 Bộ kit áp dụng ý tưởng phân rã ngữ nghĩa, tái sử dụng component và phản hồi theo phần tử vào công việc frontend. Đây là bộ hướng dẫn độc lập, không phải bản triển khai chính thức của WebPAI và không tái hiện pipeline hay bảo đảm kết quả benchmark của ComUICoder.

@@ -1,5 +1,7 @@
 # Ba skill độc lập
 
+**Bản ghi lịch sử cho bản cô đọng tại commit `1600703`.** Bản hiện tại dùng ánh xạ đầy đủ; xem [đánh giá mới](full-flow-mapping.md). Các quan sát dưới đây không tự chuyển thành bằng chứng cho phiên bản mới.
+
 Ngày: 2026-11-02. Baseline bộ kit trước thay đổi: commit `e75071a`. Các kết quả dưới đây áp dụng cho bản tách skill đi cùng bản ghi này, tách khỏi đánh giá entrypoint cũ.
 
 ## Thay đổi và ranh giới

@@ -2,6 +2,8 @@
 
 Gọi skill rồi viết yêu cầu bằng ngôn ngữ tự nhiên. Không cần giữ đúng câu chữ, điền đủ các trường hay dùng một mẫu báo cáo. Skill sử dụng workspace và cuộc trò chuyện hiện tại; chỉ hỏi thêm khi thiếu thông tin quan trọng không tìm được trong repo.
 
+Mỗi skill độc lập giữ đúng một luồng và thực hiện đầy đủ các bước được ánh xạ từ lệnh cũ. Tùy chọn cách viết yêu cầu và trình bày kết quả không có nghĩa là được bỏ bước quy trình hoặc tự chạy luồng khác.
+
 Các ví dụ dùng cú pháp Claude Code `/tên-skill`; với Codex dùng `$tên-skill`. Không có thứ tự chạy bắt buộc giữa các skill. Lệnh cũ `comui-frontend-kit` vẫn nhận các yêu cầu tương tự và chọn luồng phù hợp.
 
 ## Audit

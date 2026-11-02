@@ -1,0 +1,50 @@
+{
+  "audit": {
+    "coverage_ids_present": 8,
+    "changed_original_paths": [],
+    "added_test_paths": [],
+    "public_contracts": "passed",
+    "existing_quantity_check": "passed (1 test)"
+  },
+  "build": {
+    "coverage_ids_present": 7,
+    "changed_original_paths": [
+      "cards.js"
+    ],
+    "added_test_paths": [
+      "cards.test.js"
+    ],
+    "public_contracts": "passed",
+    "existing_quantity_check": "passed (1 test)"
+  },
+  "refactor": {
+    "coverage_ids_present": 8,
+    "changed_original_paths": [
+      "cards.js"
+    ],
+    "added_test_paths": [
+      "cards.test.js"
+    ],
+    "public_contracts": "passed",
+    "existing_quantity_check": "passed (1 test)"
+  },
+  "mismatch": {
+    "source_unchanged": true,
+    "response": "Bạn đang chọn `comui-audit`, luồng này chỉ rà soát và đề xuất. Yêu cầu sửa ngay hai product card thuộc luồng Refactor. Bạn muốn giữ Audit để tôi báo cáo phần lặp và kế hoạch xử lý, hay chuyển sang `comui-refactor` để thực hiện sửa?\n"
+  },
+  "mechanical_checks": {
+    "mapping_tests_passed": 4,
+    "legacy_harness_tests_passed": 11,
+    "generated_files_matched": 33,
+    "readme_shell_blocks_checked": 5,
+    "copied_legacy_harness_tests_passed": 11,
+    "source_links_checked": 148,
+    "installed_links_checked": 119,
+    "existing_install_preserved": true
+  },
+  "limits": {
+    "native_skill_selector_tested": false,
+    "browser_render_tested": false,
+    "general_behavior_equivalence_proven": false
+  }
+}

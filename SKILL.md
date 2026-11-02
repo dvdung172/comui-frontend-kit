@@ -5,18 +5,9 @@ description: Use when building frontend pages or components, auditing existing f
 
 # ComUI Frontend Kit
 
-Use the target repo's standards and evidence to improve frontend structure and behavior. The kit is self-contained; no other skill or provider-specific tool is required.
+Read the complete [shared contract](references/core.md) and [workflow](references/workflow.md). Select Audit, Build or Refactor from the user's request, then execute the shared stages, every numbered step of that flow and the completion checks. Account for each stage/step with evidence or an explicit applicability/blocking reason in the chosen output form.
 
-This original entrypoint remains available alongside the independent `comui-audit`, `comui-build` and `comui-refactor` skills. Use the user's natural request and conversation to choose the work; calling another skill, filling a prompt template or providing a prior audit/plan is not a prerequisite. Infer available context from the workspace and ask only about consequential missing choices. Adapt output to the user rather than requiring a fixed report form.
-
-Read [workflow.md](references/workflow.md) first and choose audit, build or refactor from the user's request. Read the corresponding section and follow its completion criteria.
-
-Essential boundaries:
-
-- An audit produces a report and plan; source edits require an implementation request. Existing authorization for build/refactor remains valid within its scope.
-- Record source snapshot, reviewed scope and uncovered areas. Distinguish explicit/enforced rules, inferred conventions and kit recommendations.
-- Similar UI creates reuse candidates. Evaluate responsibility, public behavior, state ownership and abstraction cost before merging.
-- Separate source evidence, runtime observations and reference comparisons. State the checks actually performed and what remains unverified.
+This original entrypoint remains available alongside `comui-audit`, `comui-build` and `comui-refactor`. Each independent skill contains the same shared contract, the complete corresponding flow and full operational references, generated from this kit. It fixes the flow instead of selecting one. No prior ComUI skill, prompt template, audit report or written plan is required.
 
 Load supporting material when needed:
 
@@ -31,4 +22,4 @@ Load supporting material when needed:
 | Understand research provenance and limits | [comuicoder-analysis.md](references/comuicoder-analysis.md) |
 | Run a bounded Codex audit trial and review its evidence | [Codex quick start](references/codex.md) |
 
-Scale output to the task. Embed relevant template fields in one report for small work. Follow the user's language. Source-only review is useful; missing runtime or design references limit only the claims that depend on them.
+Templates are optional presentation aids; workflow execution and evidence requirements remain mandatory. The shared contract defines scope, natural-language input and evidence boundaries for all four entrypoints.
