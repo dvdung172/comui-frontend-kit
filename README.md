@@ -1,123 +1,123 @@
 # ComUI Frontend Kit
 
-Bộ skill cho AI làm frontend theo chuẩn sẵn có của từng repo, lấy cảm hứng từ ComUICoder. Dùng để rà soát source, xây UI và refactor component dựa trên trách nhiệm, hành vi và bằng chứng kiểm chứng.
+Bộ skill giúp AI rà soát, xây mới và refactor frontend theo chuẩn sẵn có của từng repository. Dùng với Claude Code, Codex hoặc công cụ AI có khả năng đọc hướng dẫn Markdown và source code.
 
-**Giao việc bằng ngôn ngữ tự nhiên. Không cần điền prompt mẫu, chạy audit trước hay tạo đủ các mẫu tài liệu.** AI đọc ngữ cảnh hiện có và chỉ hỏi thêm khi thiếu thông tin ảnh hưởng đáng kể đến công việc.
+## Giới thiệu
 
-## Chọn skill
+### Vấn đề
 
-| Skill | Khi dùng | Kết quả |
+Làm frontend trong một dự án có sẵn đòi hỏi hiểu cách repo tổ chức component, quản lý state, gọi API và kiểm chứng thay đổi. Một component mới có thể trùng phần đã có; hai khối UI nhìn giống nhau có thể mang hành vi khác nhau; một lần gom code có thể làm đổi callback, quyền truy cập hoặc trạng thái giao diện.
+
+ComUI Frontend Kit cung cấp quy trình để AI xem xét các yếu tố đó trước khi kết luận hoặc sửa mã. Kết quả cần bám source và chuẩn của dự án, đồng thời cho biết phần nào đã được kiểm tra và phần nào còn thiếu bằng chứng.
+
+### Hướng giải quyết
+
+Bộ kit tổ chức công việc thành ba nhiệm vụ: **Audit**, **Build** và **Refactor**. Mỗi nhiệm vụ có một skill độc lập; lệnh chung `comui-frontend-kit` vẫn được giữ để chọn luồng từ yêu cầu.
+
+Các skill cùng áp dụng những nguyên tắc sau:
+
+- **Đọc chuẩn repo trước khi đề xuất.** Xem hướng dẫn, cấu hình và code liên quan; phân biệt quy định rõ ràng, quy tắc được công cụ kiểm tra, convention suy ra và khuyến nghị của AI.
+- **Phân rã theo trách nhiệm UI.** Liên hệ route/entrypoint với khối giao diện, component, nơi sở hữu state/data và các nơi sử dụng.
+- **Quyết định reuse từ hành vi.** So sánh trách nhiệm, API/event, vòng đời state, biến thể và chi phí thay đổi trước khi dùng lại hoặc trích component. Giữ riêng là một kết quả hợp lệ.
+- **Kiểm chứng theo bằng chứng có thật.** Phân biệt nhận xét từ source, quan sát khi chạy ứng dụng và so sánh với thiết kế; chỉ ghi một check là đạt khi đã thực hiện và có kết quả.
+
+Ba skill độc lập được ánh xạ **1–1** từ phần hướng dẫn chung và đúng luồng tương ứng của `comui-frontend-kit`, kèm đầy đủ reference vận hành. Chúng được [sinh và kiểm tra từ một nguồn chung](scripts/sync_skills.py), không phải các bản hướng dẫn rút gọn. Mỗi skill chỉ thực hiện nhiệm vụ của mình, không tự chạy luồng khác hay yêu cầu chạy skill khác trước.
+
+### Quy trình trong skill
+
+Mỗi nhiệm vụ bắt đầu bằng việc đọc hướng dẫn chung và lập mốc ban đầu: xác định phạm vi, phiên bản source, thay đổi có trước, chuẩn áp dụng, caller liên quan và các check có thể chạy. Nếu repo có `.codegraph/`, skill yêu cầu dùng CodeGraph trước để hiểu hoặc định vị code; khi không truy cập được, ghi nhận giới hạn và dùng cách đọc source thông thường.
+
+Sau đó, AI thực hiện đầy đủ các bước của luồng được chọn:
+
+| Luồng | Các bước chính | Kết quả |
 | --- | --- | --- |
-| [`comui-audit`](skills/comui-audit/SKILL.md) | Rà soát source, tìm vấn đề hoặc cơ hội tái sử dụng | Phát hiện có bằng chứng và đề xuất refactor; không tự sửa source |
-| [`comui-build`](skills/comui-build/SKILL.md) | Xây trang, feature hoặc component | Triển khai theo stack, design system và data contract của repo |
-| [`comui-refactor`](skills/comui-refactor/SKILL.md) | Thực hiện thay đổi cấu trúc UI | Mã đã refactor cùng bằng chứng về các hành vi cần giữ |
-| [`comui-frontend-kit`](SKILL.md) | Giữ cách gọi cũ hoặc xử lý công việc kết hợp | Tự chọn luồng phù hợp với yêu cầu; giữ bộ reference chi tiết |
+| [Audit — 5 bước](skills/comui-audit/references/workflow.md) | Lập bản đồ UI/source → điều tra vấn đề và nhóm component → đánh giá ưu tiên → đề xuất thay đổi có thứ tự → chạy check phù hợp và ghi giới hạn | Báo cáo có bằng chứng, quyết định reuse và kế hoạch; không triển khai sửa source |
+| [Build — 4 bước](skills/comui-build/references/workflow.md) | Làm rõ hành vi/trạng thái cần có → chọn component và xác định hợp đồng → triển khai trong stack hiện tại → kiểm tra, sửa lỗi quan sát được và kiểm tra lại | Feature, trang hoặc component đã triển khai cùng kết quả kiểm chứng |
+| [Refactor — 5 bước](skills/comui-refactor/references/workflow.md) | Đối chiếu yêu cầu/kế hoạch với source và baseline → xác định hành vi cần giữ → thực hiện thay đổi có phạm vi → tách riêng bug ngoài phạm vi → kiểm chứng và báo cáo các hợp đồng được giữ | Mã đã refactor cùng bằng chứng về hành vi và giao diện công khai |
 
-Ba skill mới **độc lập và ánh xạ 1–1 theo luồng** từ lệnh cũ. Mỗi bản có đủ hướng dẫn chung, baseline, toàn bộ các bước của đúng một luồng, tiêu chí hoàn thành và bản sao nguyên vẹn các reference vận hành. Chúng không phải bản tóm tắt. Lệnh cũ chọn luồng từ yêu cầu; từng skill mới cố định một luồng và không tự chạy luồng khác.
+Khi bàn giao, AI phải ghi nhận `shared`, `baseline`, từng bước của luồng và `completion`, kèm bằng chứng hoặc lý do cụ thể. Bước hoàn thành dùng `done`; nhánh điều kiện không phát sinh dùng `not applicable` kèm lý do; việc bắt buộc còn thiếu dùng `blocked` cùng điều kiện cần bổ sung. Không được bỏ bước rồi tuyên bố đã hoàn tất.
 
-Có thể cài một hoặc nhiều skill mà không cần lệnh cũ hoặc repo bộ kit ở thời điểm sử dụng. Giữ nguyên cả thư mục skill, gồm `SKILL.md`, `references/`, `templates/`, `mapping.json` và metadata. Không cần chạy các nhiệm vụ theo một chuỗi bắt buộc.
+Cách viết yêu cầu và định dạng báo cáo có thể linh hoạt. Các bước quy trình vẫn phải được thực hiện đầy đủ; prompt mẫu và mẫu tài liệu chỉ là trợ giúp tùy chọn.
 
-## Sử dụng
+### Phạm vi áp dụng
 
-Trong Claude Code, gọi `/tên-skill` rồi viết yêu cầu của bạn. Ví dụ ngắn:
+Bộ kit là hướng dẫn cho agent, không tự cung cấp model, browser, Figma, backend hay quyền đọc/sửa file. Có source là đủ để bắt đầu audit; xác nhận render, tương tác, responsive hoặc độ khớp thiết kế cần môi trường và bằng chứng tương ứng. Nếu thiếu một điều kiện bắt buộc của nhiệm vụ, skill phải ghi rõ phần chưa hoàn thành.
+
+Bộ kit lấy cảm hứng từ phân rã ngữ nghĩa, tái sử dụng component và phản hồi theo phần tử trong [ComUICoder](https://arxiv.org/abs/2602.19276), tham khảo [repo WebPAI](https://github.com/WebPAI/ComUICoder). Đây là bộ hướng dẫn độc lập, không phải bản triển khai chính thức hoặc cam kết đạt benchmark của bài báo. Xem [phân tích nguồn nghiên cứu](references/comuicoder-analysis.md) và [kết quả kiểm tra ánh xạ](evaluations/full-flow-mapping.md).
+
+## Hướng dẫn sử dụng
+
+### Chọn skill theo nhiệm vụ
+
+| Skill | Khi sử dụng |
+| --- | --- |
+| [`comui-audit`](skills/comui-audit/SKILL.md) | Muốn rà soát source, tìm vấn đề, đánh giá reuse hoặc nhận đề xuất refactor |
+| [`comui-build`](skills/comui-build/SKILL.md) | Muốn triển khai một trang, feature, component hoặc trạng thái UI mới |
+| [`comui-refactor`](skills/comui-refactor/SKILL.md) | Muốn thực hiện thay đổi cấu trúc frontend và giữ các hành vi đã xác định |
+| [`comui-frontend-kit`](SKILL.md) | Muốn dùng lệnh chung để AI chọn luồng phù hợp từ yêu cầu |
+
+Có thể dùng riêng một skill. Refactor nhận cả yêu cầu trực tiếp lẫn kế hoạch có sẵn; không bắt buộc phải có báo cáo audit trước. Nếu yêu cầu thuộc nhiệm vụ khác với skill đang gọi, skill sẽ nêu sự không khớp và hỏi bạn chọn lại thay vì âm thầm đổi luồng.
+
+### Giao việc bằng ngôn ngữ tự nhiên
+
+Mở công cụ AI trong project cần làm việc. Với **Claude Code**, gọi `/tên-skill` rồi viết yêu cầu:
 
 ```text
 /comui-audit xem phần giỏ hàng có chỗ nào nên gom component không
-/comui-build thêm trạng thái rỗng cho danh sách sản phẩm
+/comui-build thêm trạng thái rỗng cho danh sách sản phẩm, dùng component đang có
 /comui-refactor gom phần dựng hai product card, giữ callback và class hiện tại
-/comui-frontend-kit xem giúp cấu trúc frontend và đề xuất việc nên làm trước
+/comui-frontend-kit rà soát cấu trúc frontend và đề xuất việc nên làm trước
 ```
 
-Trong Codex, thay `/` bằng `$`, chẳng hạn `$comui-audit xem phần giỏ hàng có chỗ nào nên gom component không`. Những câu trên chỉ là ví dụ, không phải cú pháp đầu vào bắt buộc. Công cụ hỗ trợ tự chọn skill cũng có thể nạp skill phù hợp từ mô tả; mức độ tự chọn phụ thuộc công cụ và phiên làm việc. Có thể gọi tên trực tiếp để chọn rõ.
+Với **Codex**, dùng `$tên-skill`, ví dụ:
 
-Nếu đã xác định phạm vi hoặc hành vi cần giữ, nói ngay trong yêu cầu. Nếu chưa, skill sẽ tìm ngữ cảnh trong workspace và thu hẹp phạm vi khi cần. `comui-refactor` nhận cả yêu cầu trực tiếp lẫn kế hoạch có sẵn; một báo cáo audit trước đó là tùy chọn.
+```text
+$comui-refactor gom phần dựng hai product card, giữ callback và class hiện tại
+```
 
-Gọi đúng nhiệm vụ: `comui-audit` chỉ phân tích và đề xuất, `comui-build` chỉ làm luồng xây mới, `comui-refactor` chỉ làm luồng refactor. Khi yêu cầu thuộc luồng khác, skill nêu sự không khớp và hỏi bạn chọn lại; nó không âm thầm chuyển luồng hay gọi skill khác. Việc tìm hiểu source trong build/refactor là một bước của nhiệm vụ đó, không phải chạy thêm luồng audit.
+Đây là ví dụ, không phải prompt bắt buộc. Bạn có thể nói thêm phạm vi, hành vi cần giữ, thiết kế hoặc tiêu chí chấp nhận khi đã biết. AI sẽ tìm ngữ cảnh trong repo và chỉ hỏi thêm ở những lựa chọn quan trọng chưa thể xác định.
 
-Với AI có quyền đọc file nhưng không hỗ trợ skill, yêu cầu đọc `SKILL.md` của skill tương ứng rồi giao việc bình thường. Nếu chỉ dùng chat, cung cấp hướng dẫn và source liên quan, đồng thời nêu phần repo chưa được cung cấp.
+Với công cụ chưa hỗ trợ skill nhưng đọc được file, yêu cầu đọc `SKILL.md` trong thư mục skill tương ứng rồi giao việc bình thường. Các reference nằm cùng thư mục phải được cung cấp đầy đủ.
 
-## Cơ chế hoạt động
+### Đọc kết quả
 
-Đây là hướng dẫn Markdown mà agent đọc khi được gọi hoặc được công cụ lựa chọn. Model, khả năng đọc/sửa source, terminal, browser và quyền truy cập do công cụ AI cung cấp; bộ kit không chạy một model hay pipeline riêng.
+Kết quả cần cho biết phạm vi đã xử lý, bằng chứng, quyết định về component và coverage từng bước. Với Build/Refactor, cần có thêm thay đổi đã thực hiện, hành vi liên quan và check đã chạy. Check dùng trạng thái `passed`, `failed`, `not run` hoặc `unavailable`.
 
-1. **Hiểu nhiệm vụ và chuẩn repo.** Agent đọc yêu cầu, hướng dẫn áp dụng, config và code liên quan. Phân biệt quy định rõ ràng, quy tắc được công cụ cưỡng chế, convention suy ra và khuyến nghị. Repo có `.codegraph/` thì dùng CodeGraph trước khi tìm code; khi không truy cập được, ghi nhận giới hạn và dùng cách đọc thông thường.
-2. **Phân tích theo trách nhiệm UI.** Liên hệ route/entrypoint → khối giao diện có ý nghĩa → component → chủ sở hữu state/data → các nơi sử dụng. Có screenshot hoặc thiết kế thì dùng thêm; chỉ có source vẫn phân tích được.
-3. **Quyết định tái sử dụng.** So sánh trách nhiệm, API/event, state, vòng đời, biến thể và chi phí chuyển đổi. Chọn dùng component có sẵn, trích component/helper, giữ riêng hoặc điều tra thêm. Giao diện giống nhau chưa đủ để gom thành một component chung.
-4. **Làm đúng công việc đã giao.** Audit trả nhận xét và đề xuất; build/refactor thực hiện thay đổi trong phạm vi được yêu cầu. Refactor ghi nhận các contract cần giữ thay vì âm thầm đổi hành vi.
-5. **Kiểm chứng và phản hồi cụ thể.** Dùng check thực sự tồn tại trong repo; khi có runtime, kiểm tra các trạng thái và tương tác liên quan. Nếu so thiết kế, giữ điều kiện so sánh tương đương. Phản hồi chỉ rõ phần tử/selector, source và kịch bản thay vì yêu cầu chung chung như “làm đẹp hơn”.
-6. **Bàn giao theo quy mô.** Nêu kết quả, bằng chứng, check đã chạy và phần chưa kiểm chứng. Trả lời ngắn hoặc lập tài liệu tùy yêu cầu; không bắt dùng một form cố định.
-
-Agent đọc đầy đủ workflow được chọn và các reference vận hành mà workflow yêu cầu. Ba skill mới mang theo cùng nội dung reference, không phụ thuộc file ở ngoài thư mục được cài. Template chỉ giúp trình bày; dùng template hay không vẫn phải thực hiện đầy đủ quy trình.
-
-### Ánh xạ và hoàn thành từng bước
-
-| Skill | Nguồn quy trình ở lệnh cũ | Bản quy trình độc lập | Các giai đoạn phải thực hiện |
-| --- | --- | --- | --- |
-| `comui-audit` | [Audit](references/workflow.md#audit) | [Workflow audit](skills/comui-audit/references/workflow.md) | Hướng dẫn chung → baseline → 5 bước Audit → hoàn thành |
-| `comui-build` | [Build](references/workflow.md#build) | [Workflow build](skills/comui-build/references/workflow.md) | Hướng dẫn chung → baseline → 4 bước Build → hoàn thành |
-| `comui-refactor` | [Refactor](references/workflow.md#refactor) | [Workflow refactor](skills/comui-refactor/references/workflow.md) | Hướng dẫn chung → baseline → 5 bước Refactor → hoàn thành |
-
-Phần workflow tương ứng được chép nguyên văn; phần chung, [core](references/core.md), [repo-profile](references/repo-profile.md), [component-analysis](references/component-analysis.md), [verification](references/verification.md) và các template có cùng nội dung byte với nguồn. `mapping.json` trong từng skill ghi luồng, ID các bước và hash để kiểm tra ánh xạ. Tài liệu nghiên cứu và harness là tài nguyên cấp bộ kit, không phải bước phải chạy trước của một nhiệm vụ.
-
-Khi bàn giao, agent phải ghi nhận `shared`, `baseline`, từng ID bước của luồng đã chọn và `completion`, kèm bằng chứng hoặc lý do cụ thể. Bước làm xong là `done`; nhánh điều kiện không phát sinh phải ghi `not applicable` và lý do; việc bắt buộc chưa làm được là `blocked` cùng điều kiện còn thiếu. Không được bỏ bước rồi tuyên bố hoàn tất. Check vẫn dùng trạng thái passed/failed/not run/unavailable để phân biệt thực thi với kết quả kiểm chứng.
-
-Ví dụ, audit chỉ từ source có thể hoàn thành báo cáo khi đã làm các check sẵn có và nêu rõ chưa kiểm chứng UI. Nếu nhiệm vụ yêu cầu xác nhận render mà không có runtime thì tiêu chí đó vẫn chưa hoàn thành. Thiếu điều kiện không phải lý do tự chạy một luồng khác.
-
-## Ưu điểm và giới hạn
-
-| Ưu điểm | Giá trị thực tế |
-| --- | --- |
-| Ưu tiên chuẩn repo | Giảm đề xuất đổi framework, cấu trúc hoặc cách đặt tên chỉ theo sở thích của AI |
-| Tách audit, build và refactor theo cùng quy trình gốc | Cố định nhiệm vụ, giữ đủ các bước; nhận xét source không tự trở thành yêu cầu sửa mã |
-| Reuse xét cả hành vi và state | Giúp tránh component tổng quát với nhiều cờ và các lifecycle bị ghép không cần thiết |
-| Chỉ có source vẫn dùng được | Bắt đầu rà soát mà chưa cần môi trường chạy hoặc file thiết kế |
-| Markdown và ba skill tự chứa hướng dẫn | Có thể cài riêng, chuyển công cụ và dùng yêu cầu tự nhiên |
-| Tách các loại bằng chứng | Biết kết luận nào đến từ source, chạy thực tế hoặc so sánh thiết kế |
-
-| Nhược điểm / giới hạn | Hệ quả khi dùng |
-| --- | --- |
-| Phụ thuộc năng lực model và công cụ | Ánh xạ nội dung 1–1 không tự bảo đảm agent thực thi đúng mọi bước; vẫn cần đối chiếu bằng chứng và coverage |
-| Chuẩn repo có thể thiếu hoặc xung đột | Agent vẫn cần suy luận, ghi rõ giả định hoặc hỏi lại ở quyết định quan trọng |
-| Source không chứng minh toàn bộ UI | Render, tương tác, responsive, accessibility và hiệu năng cần kiểm tra tương ứng |
-| Thay đổi component dùng chung có phạm vi ảnh hưởng rộng | Cần kiểm tra các consumer/variant liên quan; một build xanh chưa đủ |
-| Chưa có benchmark trên nhiều dự án thực tế | Chưa thể khẳng định tăng tốc, tiết kiệm token hay cải thiện chất lượng theo một tỷ lệ |
-| Bộ kit không cấp thêm quyền hay kết nối | Browser, Figma, backend, dữ liệu và quyền chạy check vẫn cần có trong môi trường AI |
+Một báo cáo audit chỉ từ source có thể hoàn thành với giới hạn UI được nêu rõ. Một nhiệm vụ yêu cầu xác nhận render vẫn cần bằng chứng render. Khi xem kết quả, đối chiếu coverage với bằng chứng thực tế; việc có hướng dẫn đầy đủ không bảo đảm mọi model luôn thực thi đúng.
 
 ## Cài đặt
 
-Chỉ đọc/dùng skill không cần dependency. Các bước sau cần Git để tải repo và shell để chép file. Python và Codex CLI chỉ cần cho harness thử nghiệm tùy chọn.
+Các bước dưới đây dành cho Claude Code và Codex chạy local. Dùng skill không cần dependency bổ sung; Git và shell được dùng để tải và chép file. [Harness Codex tùy chọn](references/codex.md) mới cần Python và Codex CLI.
 
-### Tải bộ kit
+### 1. Tải bộ kit
 
-Clone vào một thư mục lưu source thông thường, bên ngoài thư mục mà công cụ quét skill:
+Clone repo vào một thư mục lưu source thông thường, bên ngoài nơi công cụ quét skill:
 
 ```sh
 git clone https://github.com/dvdung172/comui-frontend-kit.git
 cd comui-frontend-kit
 ```
 
-### Chọn nơi cài
+### 2. Chọn thư mục cài
 
-Chọn **một** scope phù hợp và đặt `COMUI_SKILLS_DIR` thành đường dẫn tương ứng:
+Chọn một phạm vi phù hợp:
 
-| Công cụ / phạm vi | Thư mục đích |
-| --- | --- |
-| Claude Code, một project | `/path/to/project/.claude/skills` |
-| Claude Code, cá nhân | `$HOME/.claude/skills` |
-| Codex, một project | `/path/to/project/.agents/skills` |
-| Codex, cá nhân | `$HOME/.agents/skills` |
+| Công cụ | Dùng trong một project | Dùng cho tài khoản máy hiện tại |
+| --- | --- | --- |
+| Claude Code | `/path/to/project/.claude/skills` | `$HOME/.claude/skills` |
+| Codex | `/path/to/project/.agents/skills` | `$HOME/.agents/skills` |
 
-Ví dụ cài cá nhân cho Codex, hoặc đổi dòng gán thành đích trong bảng:
+Đặt `COMUI_SKILLS_DIR` thành thư mục đã chọn. Ví dụ cài cá nhân cho Claude Code:
 
 ```sh
-COMUI_SKILLS_DIR="$HOME/.agents/skills"
+COMUI_SKILLS_DIR="$HOME/.claude/skills"
 ```
 
-Đường dẫn project phải là đường dẫn thật của repo muốn dùng. Scope được mô tả trong [tài liệu Claude Code](https://code.claude.com/docs/en/skills) và [tài liệu Codex](https://learn.chatgpt.com/docs/build-skills).
+Nếu cài theo project, thay bằng đường dẫn tuyệt đối thật của project. Các vị trí cài được mô tả trong [tài liệu Claude Code](https://code.claude.com/docs/en/skills) và [tài liệu Codex](https://learn.chatgpt.com/docs/build-skills).
 
-### Chép ba skill mới
+### 3. Cài các skill độc lập
 
-Chạy từ thư mục bộ kit vừa clone. Có thể bỏ các tên không muốn cài khỏi danh sách trong vòng lặp:
+Chạy từ thư mục repo bộ kit vừa clone. Có thể bỏ tên skill không cần dùng khỏi danh sách:
 
 ```sh
 mkdir -p "$COMUI_SKILLS_DIR"
@@ -131,13 +131,11 @@ for skill in comui-audit comui-build comui-refactor; do
 done
 ```
 
-Mỗi skill được chép nguyên thư mục và kèm license. Các đường dẫn đã tồn tại được giữ nguyên. Đây là cài mới; để cập nhật bản chép, tải thay đổi ở repo nguồn, so sánh với bản đang cài và thay đúng thư mục sau khi giữ lại chỉnh sửa riêng. `git pull --ff-only` ở repo nguồn không tự cập nhật các bản chép.
+Giữ nguyên toàn bộ thư mục đã chép, gồm `SKILL.md`, `references/`, `templates/`, `mapping.json` và metadata. Sau khi cài bằng bản chép, skill không phụ thuộc vị trí repo bộ kit nữa.
 
-### Giữ hoặc cài thêm lệnh cũ
+### 4. Cài lệnh chung nếu cần
 
-Bản cài `comui-frontend-kit` hiện tại tiếp tục dùng được; không cần đổi lệnh hay gỡ bản cũ. Nếu bản cũ là symlink, nguồn vẫn phải tồn tại. Nếu là một Git clone riêng, cập nhật tại clone đó; tránh cài thêm các bản trùng tên ở nhiều scope.
-
-Để cài mới lệnh cũ từ source vừa clone, dùng một thư mục đích chưa tồn tại:
+Nếu đã có `comui-frontend-kit`, tiếp tục dùng bản cài đó. Để cài mới lệnh chung, chạy thêm:
 
 ```sh
 COMUI_LEGACY_DIR="$COMUI_SKILLS_DIR/comui-frontend-kit"
@@ -152,33 +150,12 @@ else
 fi
 ```
 
-Lệnh cũ dùng các reference đi kèm nên phải giữ cả các thư mục được chép. Cách cài này không lồng ba skill mới vào thư mục skill cũ. Không cần sửa `AGENTS.md`, `CLAUDE.md`, hook hay cấu hình model để sử dụng các skill.
+Lệnh chung cần các tài nguyên đi kèm, vì vậy không chỉ chép riêng `SKILL.md`. Có thể cài lệnh chung cùng ba skill độc lập hoặc chỉ cài những skill cần dùng.
 
-Mở phiên AI trong project muốn làm việc rồi gọi skill. Nếu danh sách skill chưa cập nhật, kiểm tra vị trí `SKILL.md`, tên skill và mở lại phiên theo cơ chế công cụ. Thấy tên skill trong danh sách xác nhận việc khám phá; chất lượng thực hiện vẫn cần đánh giá riêng.
+### 5. Kiểm tra và cập nhật
 
-## Duy trì ánh xạ 1–1
+Mở phiên Claude Code/Codex trong project và gọi một tên skill đã cài. Nếu chưa thấy tên, kiểm tra thư mục đích, sự tồn tại của `SKILL.md` và mở lại phiên theo cơ chế của công cụ. Không cần sửa `AGENTS.md`, `CLAUDE.md`, hook hay cấu hình model để dùng bộ skill.
 
-Nguồn chuẩn là `references/core.md`, `references/workflow.md`, ba reference vận hành và các template ở gốc repo. Sửa nguồn này khi đổi quy trình; không sửa trực tiếp các bản sinh trong `skills/`.
-
-Chạy tại **repo nguồn**, không phải thư mục skill đã cài:
-
-```sh
-python3 -B scripts/sync_skills.py --write
-python3 -B scripts/sync_skills.py --check
-python3 -B scripts/test_sync_skills.py
-```
-
-`--write` sinh lại các file được quản lý của ba skill. `--check` chỉ kiểm tra, trả lỗi nếu có file bị thiếu hoặc lệch nội dung; không tự sửa. Bộ test đối chiếu toàn bộ các bước với luồng gốc, kiểm tra reference nguyên vẹn, đường dẫn độc lập và phát hiện sai lệch có chủ ý. Python standard library đủ cho việc đồng bộ; dùng skill đã cài không cần Python.
-
-## Thử nghiệm, tài liệu và nguồn gốc
-
-[Harness Codex](references/codex.md) là wrapper tùy chọn để chạy audit qua **lệnh cũ**, lưu log, snapshot và rubric đánh giá. Nó có prompt nội bộ cho lượt thử được kiểm soát; người dùng skill tương tác không phải viết theo prompt đó. Harness không tự build/refactor, không tự chấm chất lượng và kế thừa auth/model hiện có của Codex CLI.
-
-- [Workflow chi tiết của lệnh cũ](references/workflow.md), [chuẩn repo](references/repo-profile.md), [phân tích component](references/component-analysis.md), [kiểm chứng](references/verification.md).
-- [Ví dụ yêu cầu tùy chọn](prompts.md), [mẫu audit](templates/audit-and-refactor.md), [mẫu hồ sơ repo](templates/repo-profile.md), [mẫu component contract](templates/component-contract.md).
-- [Ví dụ audit](examples/audit-example.md), [kết quả đánh giá ban đầu](evaluations/validation.md), [đánh giá bản tách cô đọng trước đây](evaluations/independent-skills.md) và [đánh giá ánh xạ đầy đủ 1–1](evaluations/full-flow-mapping.md). Các kết quả được phân biệt theo phiên bản và loại kiểm tra.
-- [Phân tích ComUICoder](references/comuicoder-analysis.md), [paper](https://arxiv.org/abs/2602.19276) và [repo WebPAI](https://github.com/WebPAI/ComUICoder).
-
-Bộ kit áp dụng ý tưởng phân rã ngữ nghĩa, tái sử dụng component và phản hồi theo phần tử vào công việc frontend. Đây là bộ hướng dẫn độc lập, không phải bản triển khai chính thức của WebPAI và không tái hiện pipeline hay bảo đảm kết quả benchmark của ComUICoder.
+Các lệnh cài ở trên **bỏ qua thư mục đã tồn tại**. Để cập nhật, tải thay đổi tại repo nguồn bằng `git pull --ff-only`, so sánh với bản đang cài, giữ lại chỉnh sửa riêng rồi thay đầy đủ thư mục skill cần cập nhật. Cập nhật repo nguồn không tự cập nhật các bản đã chép. Nếu dùng bản cài symlink từ trước, nguồn của symlink phải tiếp tục tồn tại.
 
 Giấy phép: [MIT](LICENSE).
