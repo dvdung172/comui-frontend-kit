@@ -1,0 +1,21 @@
+{
+  "method": "skills/list",
+  "found": [
+    {
+      "name": "comui-frontend-kit",
+      "description": "Use when building frontend pages or components, auditing existing frontend source, or implementing an assigned UI refactor within a repository's own standards. Relevant when component boundaries, reuse across pages, or precise UI feedback matter.",
+      "interface": {
+        "displayName": "ComUI Frontend",
+        "shortDescription": "Audit frontend và refactor theo chuẩn repo",
+        "iconSmall": null,
+        "iconLarge": null,
+        "brandColor": null,
+        "defaultPrompt": "Dùng $comui-frontend-kit để audit frontend repo hiện tại, ưu tiên chuẩn repo và đề xuất refactor có bằng chứng; chưa sửa source."
+      },
+      "path": "~/.agents/skills/comui-frontend-kit/SKILL.md",
+      "scope": "user",
+      "enabled": true
+    }
+  ],
+  "target_errors": []
+}

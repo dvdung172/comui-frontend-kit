@@ -1,0 +1,68 @@
+[
+  {
+    "trial": "comui-live-20261101",
+    "status": "failed",
+    "returncode": 1,
+    "duration_seconds": 5.676,
+    "usage": null,
+    "source_unchanged": true,
+    "requested_model": "inherited configuration",
+    "errors": [
+      {
+        "type": "error",
+        "message": "{\"type\":\"error\",\"status\":400,\"error\":{\"type\":\"invalid_request_error\",\"message\":\"The 'gpt-6.1-sol' model is not supported when using Codex with a ChatGPT account.\",\"code\":\"model_not_found\"}}"
+      },
+      {
+        "type": "turn.failed",
+        "error": {
+          "message": "{\"type\":\"error\",\"status\":400,\"error\":{\"type\":\"invalid_request_error\",\"message\":\"The 'gpt-6.1-sol' model is not supported when using Codex with a ChatGPT account.\",\"code\":\"model_not_found\"}}"
+        }
+      }
+    ],
+    "raw_evidence_directory": "omitted (local temporary evidence)"
+  },
+  {
+    "trial": "comui-live-20261101-gpt55",
+    "status": "failed",
+    "returncode": 1,
+    "duration_seconds": 5.153,
+    "usage": null,
+    "source_unchanged": true,
+    "requested_model": "gpt-5.5",
+    "errors": [
+      {
+        "type": "error",
+        "message": "{\"type\":\"error\",\"status\":400,\"error\":{\"type\":\"invalid_request_error\",\"message\":\"The 'gpt-5.5' model is not supported when using Codex with a ChatGPT account.\",\"code\":\"model_not_found\"}}"
+      },
+      {
+        "type": "turn.failed",
+        "error": {
+          "message": "{\"type\":\"error\",\"status\":400,\"error\":{\"type\":\"invalid_request_error\",\"message\":\"The 'gpt-5.5' model is not supported when using Codex with a ChatGPT account.\",\"code\":\"model_not_found\"}}"
+        }
+      }
+    ],
+    "raw_evidence_directory": "omitted (local temporary evidence)"
+  },
+  {
+    "trial": "comui-live-20261101-codex53",
+    "status": "failed",
+    "returncode": 1,
+    "duration_seconds": 5.263,
+    "usage": null,
+    "source_unchanged": true,
+    "requested_model": "gpt-5.3-codex",
+    "errors": [
+      {
+        "type": "error",
+        "message": "{\"type\":\"error\",\"status\":400,\"error\":{\"type\":\"invalid_request_error\",\"message\":\"The 'gpt-5.3-codex' model is not supported when using Codex with a ChatGPT account.\",\"code\":\"model_not_found\"}}"
+      },
+      {
+        "type": "turn.failed",
+        "error": {
+          "message": "{\"type\":\"error\",\"status\":400,\"error\":{\"type\":\"invalid_request_error\",\"message\":\"The 'gpt-5.3-codex' model is not supported when using Codex with a ChatGPT account.\",\"code\":\"model_not_found\"}}"
+        }
+      }
+    ],
+    "raw_evidence_directory": "omitted (local temporary evidence)"
+  }
+]

@@ -1,0 +1,1 @@
+{"name":"comui-evaluation-fixture","private":true,"type":"module","scripts":{"check":"node --test cart.test.js"}}

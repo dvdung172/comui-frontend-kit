@@ -1,0 +1,4 @@
+interface:
+  display_name: "ComUI Frontend"
+  short_description: "Audit frontend và refactor theo chuẩn repo"
+  default_prompt: "Dùng $comui-frontend-kit để audit frontend repo hiện tại, ưu tiên chuẩn repo và đề xuất refactor có bằng chứng; chưa sửa source."
