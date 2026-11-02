@@ -21,7 +21,7 @@ For example, a README encouraging universal cards and a current rule requiring s
 
 ## Capture the useful profile
 
-Use [the profile template](../templates/repo-profile.md). Include only information another agent needs for this task:
+Optionally use [the profile template](../templates/repo-profile.md), or include the relevant context directly in the working notes or report. Capture only information another agent needs for this task:
 
 - Root, source snapshot and inspected scope, including uncovered routes/packages.
 - Stack, routing/layout structure, component/design-system entrypoints and generated/vendor boundaries.

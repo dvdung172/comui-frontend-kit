@@ -7,6 +7,8 @@ description: Use when building frontend pages or components, auditing existing f
 
 Use the target repo's standards and evidence to improve frontend structure and behavior. The kit is self-contained; no other skill or provider-specific tool is required.
 
+This original entrypoint remains available alongside the independent `comui-audit`, `comui-build` and `comui-refactor` skills. Use the user's natural request and conversation to choose the work; calling another skill, filling a prompt template or providing a prior audit/plan is not a prerequisite. Infer available context from the workspace and ask only about consequential missing choices. Adapt output to the user rather than requiring a fixed report form.
+
 Read [workflow.md](references/workflow.md) first and choose audit, build or refactor from the user's request. Read the corresponding section and follow its completion criteria.
 
 Essential boundaries:
@@ -23,7 +25,7 @@ Load supporting material when needed:
 | Discover applicable repo standards and checks | [repo-profile.md](references/repo-profile.md) |
 | Map UI responsibilities, evaluate reuse or define contracts | [component-analysis.md](references/component-analysis.md) |
 | Establish a baseline, verify a change or report missing evidence | [verification.md](references/verification.md) |
-| Format an audit and ordered refactor plan | [audit-and-refactor.md](templates/audit-and-refactor.md) |
+| Optionally structure an audit and ordered refactor plan | [audit-and-refactor.md](templates/audit-and-refactor.md) |
 | Capture a substantial reusable profile | [repo-profile template](templates/repo-profile.md) |
 | Specify a proposed component API | [component-contract.md](templates/component-contract.md) |
 | Understand research provenance and limits | [comuicoder-analysis.md](references/comuicoder-analysis.md) |

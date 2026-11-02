@@ -1,5 +1,7 @@
 # Dùng nhanh trong Codex
 
+Ba skill mới gọi độc lập là `$comui-audit`, `$comui-build` và `$comui-refactor`; giao việc bằng ngôn ngữ tự nhiên, không cần prompt mẫu hoặc chạy audit trước. Xem [README trên GitHub](https://github.com/dvdung172/comui-frontend-kit#cài-đặt) để cài từng skill. Hướng dẫn harness dưới đây tiếp tục kiểm tra **entrypoint cũ** `$comui-frontend-kit`.
+
 ## Gọi skill
 
 ```text
@@ -18,7 +20,7 @@ Skill có tên hiển thị **ComUI Frontend**, với prompt mặc định chọ
 
 ## Cài để phát triển/thử nghiệm
 
-Đặt toàn bộ thư mục `comui-frontend-kit` vào `~/.agents/skills/`, hoặc tạo symlink cùng tên trỏ tới gói đang phát triển. Không tạo hai bản cùng tên ở nhiều scope. Không ghi đè một thư mục skill hiện hữu chưa rõ nguồn.
+Với lệnh cũ, giữ bản cài hiện có hoặc chép entrypoint và các tài nguyên đi kèm theo README. Để phát triển có thể giữ symlink cùng tên trỏ tới gói nguồn. Cài ba skill mới theo từng thư mục riêng thay vì clone cả repo lồng vào thư mục skill rồi chép thêm các bản cùng tên. Không tạo hai bản cùng tên ở nhiều scope hoặc ghi đè một thư mục skill hiện hữu chưa rõ nguồn.
 
 Codex hỗ trợ symlink khi khám phá skill; skill mới/cập nhật được tự phát hiện. Nếu selector chưa hiện, thử lượt tiếp theo hoặc khởi động lại Codex. Đây là cơ chế được mô tả trong [tài liệu OpenAI](https://learn.chatgpt.com/docs/build-skills); khả năng nhìn thấy trong một cửa sổ đang mở vẫn cần xác minh thực tế.
 

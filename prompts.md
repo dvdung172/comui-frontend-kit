@@ -1,53 +1,37 @@
-# Prompt khởi động
+# Ví dụ yêu cầu — tùy chọn
 
-Thay các giá trị trong dấu `<...>` trước khi gửi. Đặt `Kit` và `Repo` thành đường dẫn mà công cụ AI thực sự đọc được. Quy trình chung nằm trong [SKILL.md](SKILL.md); các prompt chỉ chọn công việc và phạm vi.
+Gọi skill rồi viết yêu cầu bằng ngôn ngữ tự nhiên. Không cần giữ đúng câu chữ, điền đủ các trường hay dùng một mẫu báo cáo. Skill sử dụng workspace và cuộc trò chuyện hiện tại; chỉ hỏi thêm khi thiếu thông tin quan trọng không tìm được trong repo.
 
-## 1. Audit source và đề xuất refactor
+Các ví dụ dùng cú pháp Claude Code `/tên-skill`; với Codex dùng `$tên-skill`. Không có thứ tự chạy bắt buộc giữa các skill. Lệnh cũ `comui-frontend-kit` vẫn nhận các yêu cầu tương tự và chọn luồng phù hợp.
 
-```text
-Kit: <path-to-comui-frontend-kit>
-Repo: <path-to-repository>
-Scope: <routes, packages, components, or frontend area>
-Output language: Vietnamese
-
-Read Kit/SKILL.md and follow audit mode for Repo and Scope.
-Review the existing frontend against its applicable repo standards and identify
-useful component reuse/refactor opportunities. This request authorizes an audit
-report only. Use source evidence; record runtime and design-reference access
-separately. Deliver the scoped audit and ordered refactor plan using the kit's
-audit template, with the checks actually run and remaining gaps.
-```
-
-## 2. Xây mới frontend
+## Audit
 
 ```text
-Kit: <path-to-comui-frontend-kit>
-Repo: <path-to-repository>
-Scope: <target feature, route, or components>
-Requirements and acceptance criteria: <desired behavior and UI states>
-Optional reference: <accessible design, screenshot, or none>
-Output language: Vietnamese
-
-Read Kit/SKILL.md and follow build mode. Implement Requirements within Scope
-using Repo's existing stack, standards and reusable UI. A design reference is
-optional; state consequential assumptions. Complete the feature and relevant
-verification within the granted scope. Report changed files, behavior, evidence
-and any unmet acceptance criteria.
+/comui-audit xem phần danh sách sản phẩm có chỗ nào nên tái sử dụng component không
 ```
 
-## 3. Thực hiện refactor đã giao
+Nếu muốn làm rõ phạm vi, bổ sung tự nhiên: “xem cả caller, ưu tiên chuẩn repo; chỉ báo cáo, chưa sửa source”. Kết quả có thể trả trực tiếp trong chat; [mẫu audit](templates/audit-and-refactor.md) chỉ là gợi ý tổ chức nội dung.
+
+## Build
 
 ```text
-Kit: <path-to-comui-frontend-kit>
-Repo: <path-to-repository>
-Assigned plan: <current plan path or exact steps>
-Scope: <files/components and allowed changes>
-Contracts to preserve: <public APIs, events, routes, state and UI behavior>
-Output language: Vietnamese
-
-Read Kit/SKILL.md and follow refactor mode. This request authorizes implementation
-of Assigned plan within Scope. Reconcile the plan with the current source, then
-execute it and verify Contracts to preserve. Complete the assigned work without
-requesting the same approval again. Report changes, checks, unresolved risks and
-any remaining verification; surface consequential scope changes before making them.
+/comui-build thêm trạng thái rỗng cho danh sách sản phẩm, dùng component đang có trong repo
 ```
+
+Có thể đưa thêm thiết kế, trạng thái cần hỗ trợ hoặc tiêu chí chấp nhận khi đã biết. Chỉ có mô tả bằng lời vẫn dùng được; skill sẽ làm rõ lựa chọn quan trọng và nêu giả định thiết kế liên quan.
+
+## Refactor
+
+```text
+/comui-refactor gom phần dựng hai product card, giữ callback và class hiện tại
+```
+
+Không cần có một báo cáo audit hoặc kế hoạch riêng trước đó. Nếu đã có kế hoạch, chỉ cần dẫn đến tài liệu hoặc nói các bước muốn thực hiện; skill đối chiếu với source hiện tại trước khi sửa.
+
+## Lệnh cũ
+
+```text
+/comui-frontend-kit rà soát cấu trúc UI của giỏ hàng và đề xuất việc nên làm trước
+```
+
+Giữ cùng phạm vi và quyền thực hiện: yêu cầu rà soát tạo báo cáo/đề xuất; yêu cầu triển khai cho phép thay đổi đã giao. Các tài liệu [workflow](references/workflow.md) và [kiểm chứng](references/verification.md) giải thích chi tiết cho lệnh cũ.

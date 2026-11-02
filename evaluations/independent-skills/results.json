@@ -1,0 +1,46 @@
+{
+  "packaging": {
+    "skill_names": [
+      "comui-frontend-kit",
+      "comui-audit",
+      "comui-build",
+      "comui-refactor"
+    ],
+    "relative_links_checked": 60,
+    "readme_shell_blocks_syntax": 4,
+    "installation_paths_with_spaces": 2,
+    "existing_files_preserved": true,
+    "legacy_dependencies_present": true,
+    "external_new_skill_dependencies": false,
+    "final_relative_links_checked": 65,
+    "final_installed_links_checked": 47,
+    "copied_legacy_harness_tests_passed": 11
+  },
+  "scenarios": {
+    "audit": {
+      "changed_paths": [],
+      "contracts": "Existing public DOM/event contracts: passed",
+      "existing_check": "passed (1 test)"
+    },
+    "build": {
+      "changed_paths": [
+        "cards.js"
+      ],
+      "contracts": "Existing public DOM/event contracts: passed\nProduct list feature contracts: passed",
+      "existing_check": "passed (1 test)"
+    },
+    "refactor": {
+      "changed_paths": [
+        "cards.js"
+      ],
+      "contracts": "Existing public DOM/event contracts: passed",
+      "existing_check": "passed (1 test)"
+    }
+  },
+  "legacy_harness_unit_tests": {
+    "passed": 11,
+    "model_called": false
+  },
+  "browser_verified": false,
+  "native_discovery_new_skills_verified": false
+}

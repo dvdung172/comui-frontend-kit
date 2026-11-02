@@ -1,0 +1,4 @@
+interface:
+  display_name: "ComUI Audit"
+  short_description: "Rà soát frontend và đề xuất refactor"
+  default_prompt: "Dùng $comui-audit rà soát frontend trong repo hiện tại và đề xuất cải thiện có bằng chứng."

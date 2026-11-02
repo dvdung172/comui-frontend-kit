@@ -6,9 +6,11 @@
 | --- | --- | --- |
 | Review, audit, assess or propose a refactor | Audit | Evidence-backed findings, scoped coverage and an actionable plan |
 | Implement a new frontend feature, page or component | Build | Requested behavior implemented and relevant checks reported |
-| Apply an assigned refactor or approved plan | Refactor | Scoped changes with evidence about preserved behavior |
+| Implement a requested refactor, with or without a written plan | Refactor | Scoped changes with evidence about preserved behavior |
 
 Honor the user's current scope and existing authorization. An audit authorizes a report, not source edits. Build/refactor requests authorize their specified implementation; continue without asking for the same approval again. Resolve small implementation choices using the repo's conventions. Ask only when missing information materially changes behavior, architecture or scope and cannot be found in the repo. Continue independent work while waiting.
+
+Accept natural language and use the workspace/conversation to infer available context. Prompt examples, document templates and a prior audit are optional. Choose an output format suited to the user's request; preserve the necessary evidence even when a fixed form is not used.
 
 A requested report can be returned in chat or saved to the agreed destination. Record pre-existing changes before implementation and preserve them. Local checks may create ordinary temporary output; assess a script before running it if its side effects are unclear. Installation, service startup and external data access follow the user's authorization and host tool permissions, not an implied requirement of this kit.
 
@@ -26,7 +28,7 @@ For a broad task, enumerate the areas to cover and note any sampling. For a narr
 4. Propose small ordered changes with contracts to preserve, affected consumers and a verification path. Include a keep-as-is option when abstraction adds more complexity than it removes.
 5. Use [verification.md](verification.md) for checks supported by the available environment. Report what was observed and what still needs validation.
 
-Use [the audit template](../templates/audit-and-refactor.md). Embed [profile](../templates/repo-profile.md) and [component contract](../templates/component-contract.md) details only as needed. There is no finding quota and no requirement to create separate documents for small jobs.
+Optionally use [the audit template](../templates/audit-and-refactor.md) when it helps organize the result. Include relevant profile and component-contract details directly in the report or use the linked templates as aids. There is no finding quota, mandatory format or requirement to create separate documents for small jobs.
 
 An audit is complete when its agreed scope is reviewed or explicitly marked uncovered, important conclusions have traceable evidence, and recommendations have verification steps. Completion of a report does not mean runtime behavior was verified.
 
@@ -41,7 +43,7 @@ Deliver changed files, resulting behavior, checks actually performed and remaini
 
 ## Refactor
 
-1. Read the assigned plan and current source; reconcile stale file names, contracts and changes. Establish the observable baseline before modifying behavior-sensitive code.
+1. Use an assigned plan when available; otherwise derive a scoped approach from the requested change and current source. Reconcile stale file names, contracts and changes. Establish the observable baseline before modifying behavior-sensitive code. A separate written plan is optional.
 2. Record the routes, public exports, props/events, state transitions, permissions and visual behavior that must remain stable. Choose a focused regression check when risk warrants it.
 3. Apply one coherent change at a time. Use [component-analysis.md](component-analysis.md) for extractions and [verification.md](verification.md) for affected consumers and variants.
 4. If a discovered bug requires a behavior change beyond the task, describe it separately. Stay within scope rather than hiding the fix inside a structural refactor.

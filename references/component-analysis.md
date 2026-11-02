@@ -22,7 +22,7 @@ Candidate evidence may include repeated markup, matching layouts, shared data sh
 
 Similarity produces a candidate, not a merge decision. Possible outcomes are reuse an existing component, extract a shared component, share only a primitive/helper/token, keep separate or investigate further. Explain the selected outcome with actual consumers; do not require a fixed number of matching instances.
 
-When extraction is justified, use [the component contract template](../templates/component-contract.md). Specify the shared responsibility, instance-specific fields, events, state owner, variants and migration path. Preserve public interfaces unless their change is explicitly part of the task. Do not migrate frameworks or replace existing assets with placeholders to follow upstream prompts.
+When extraction is justified, clarify the shared responsibility, instance-specific fields, events, state owner, variants and migration path to the extent needed for the change. [The component contract template](../templates/component-contract.md) is an optional aid; the contract can be communicated in prose or the implementation. Preserve public interfaces unless their change is explicitly part of the task. Do not migrate frameworks or replace existing assets with placeholders to follow upstream prompts.
 
 ## Review the connected implementation
 

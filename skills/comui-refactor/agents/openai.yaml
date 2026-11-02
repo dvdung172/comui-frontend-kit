@@ -1,0 +1,4 @@
+interface:
+  display_name: "ComUI Refactor"
+  short_description: "Refactor frontend và giữ hành vi hiện có"
+  default_prompt: "Dùng $comui-refactor thực hiện refactor frontend tôi yêu cầu và kiểm chứng hành vi liên quan."

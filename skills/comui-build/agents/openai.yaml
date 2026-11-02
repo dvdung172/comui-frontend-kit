@@ -1,0 +1,4 @@
+interface:
+  display_name: "ComUI Build"
+  short_description: "Xây frontend theo stack và chuẩn repo"
+  default_prompt: "Dùng $comui-build thực hiện yêu cầu frontend của tôi theo chuẩn repo hiện tại."
